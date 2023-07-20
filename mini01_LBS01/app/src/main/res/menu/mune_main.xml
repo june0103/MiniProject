@@ -7,4 +7,9 @@
         android:icon="@android:drawable/ic_menu_mylocation"
         android:title="Item"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_place"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="Item"
+        app:showAsAction="always" />
 </menu>

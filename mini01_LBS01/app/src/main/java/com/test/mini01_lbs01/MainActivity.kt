@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -22,7 +23,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.test.mini01_lbs01.databinding.ActivityMainBinding
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -32,6 +39,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationManager: LocationManager
     private lateinit var locationListener: LocationListener
+
+    lateinit var currentLatLng: LatLng
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +64,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
                 locationManager.removeUpdates(this)
+
             }
 
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
@@ -70,12 +80,91 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                             // 현재 위치 표시 메뉴를 선택했을 때 처리할 로직을 여기에 추가
                             showCurrentLocation()
                         }
+                        R.id.menu_place -> {
+
+                        }
+
                     }
                     false
                 }
             }
         }
 
+    }
+
+
+
+    private fun requestNearbyPlaces(latitude: Double, longitude: Double) {
+        Thread {
+            try {
+
+
+                val apiKey = "AIzaSyBf9jmJ_ZWwjK0SDqJcfPRZHihl7O2OxA8"
+                val urlStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                        "?location=$latitude,$longitude" +
+                        "&radius=50000" +
+//                        "&type=restaurant" +
+                        "&key=$apiKey"
+
+                val url = URL(urlStr)
+
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.connectTimeout = 5000
+                connection.readTimeout = 5000
+
+                val inputStream = connection.inputStream
+                val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+                val response = StringBuilder()
+
+                bufferedReader.forEachLine {
+                    response.append(it)
+                }
+
+                bufferedReader.close()
+                connection.disconnect()
+
+                // 받아온 JSON 응답 처리
+                handleResponse(response.toString())
+
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
+    }
+
+    private fun handleResponse(response: String) {
+        val placesList = mutableListOf<PlaceData>()
+
+        try {
+            val jsonObject = JSONObject(response)
+            if (jsonObject.has("results")) {
+                val resultsArray = jsonObject.getJSONArray("results")
+                for (i in 0 until resultsArray.length()) {
+                    val placeObject = resultsArray.getJSONObject(i)
+                    val name = placeObject.getString("name")
+                    val locationObject = placeObject.getJSONObject("geometry").getJSONObject("location")
+                    val lat = locationObject.getDouble("lat")
+                    val lng = locationObject.getDouble("lng")
+                    placesList.add(PlaceData(name, lat, lng))
+                }
+            }
+
+            // 받아온 장소 정보를 지도에 마커로 표시
+            runOnUiThread {
+
+                    Toast.makeText(this,placesList.toString(),Toast.LENGTH_SHORT).show()
+
+                for (place in placesList) {
+                    val latLng = LatLng(place.latitude, place.longitude)
+                    googleMap?.addMarker(MarkerOptions().position(latLng).title(place.name))
+                }
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun showCurrentLocation() {
@@ -95,8 +184,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         // 현재 위치를 가져와 지도를 해당 위치로 이동
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
-                val currentLatLng = LatLng(location.latitude, location.longitude)
+                currentLatLng = LatLng(location.latitude, location.longitude)
                 googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+
+                requestNearbyPlaces(location.latitude, location.longitude)
             }
         }
     }
@@ -151,7 +242,5 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val REQUEST_LOCATION_PERMISSION = 1001
     }
 
-
-
-
 }
+data class PlaceData(val name: String, val latitude: Double, val longitude: Double)
