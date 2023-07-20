@@ -7,4 +7,9 @@
         android:icon="@android:drawable/ic_menu_mylocation"
         android:title="Item"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/main_menu_type"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="장소 종류"
+        app:showAsAction="always" />
 </menu>
