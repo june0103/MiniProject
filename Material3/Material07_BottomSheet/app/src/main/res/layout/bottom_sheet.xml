@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheet"
+    style="@style/Widget.Material3.BottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:textAlignment="viewStart"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <view
+        android:id="@+id/view"
+        class="com.google.android.material.bottomsheet.BottomSheetDragHandleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/buttonBottom1"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="추가하기"
+        android:textAlignment="viewStart"
+        app:icon="@drawable/add_24px" />
+
+    <Button
+        android:id="@+id/buttonBottom2"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="재밌어요"
+        android:textAlignment="viewStart"
+        app:icon="@drawable/sentiment_satisfied_24px" />
+
+    <Button
+        android:id="@+id/buttonBottom3"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="좋아요"
+        android:textAlignment="viewStart"
+        app:icon="@drawable/favorite_24px" />
+
+    <Button
+        android:id="@+id/buttonBottom4"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="추천"
+        android:textAlignment="viewStart"
+        app:icon="@drawable/thumb_up_24px" />
+</LinearLayout>

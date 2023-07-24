@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Material01_Color" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- colorPrimary : 애플리케이션을 대표하는 색상 -->
+        <item name="colorPrimary">@color/material_dynamic_primary60</item>
+        <!-- colorOnPrimary : 표시되는 글자, 아이콘 등의 색상 -->
+        <item name="colorOnPrimary">@color/material_dynamic_tertiary30</item>
+        <!-- colorPrimaryDark : 대표 색상 중에 조금 더 어두운 색상. 상태바에 관련된 설정을 따로 하지 않으면 이 색상 적용. colorPrimary보다 어두운 색상으로 설정 -->
+        <item name="colorPrimaryDark">@color/material_dynamic_primary30</item>
+        <!-- colorAccent : 강조 색상, colorPrimary와 대비되는 색상으로 설정 -->
+        <item name="colorAccent">@color/material_dynamic_tertiary60</item>
+        <!-- colorControlNormal : 컨트롤러(EditText, 체크박스, 라디오 버튼, 프로그레스 바 등등)에 사용하는 색상-->
+        <item name="colorControlNormal">@android:color/holo_red_light</item>
+        <!-- colorControlHighlight : 위젯을 터치하거나 액션이 일어났을 때 나타나는 색상 -->
+        <item name="colorControlHighlight">@android:color/holo_blue_bright</item>
+        <!-- android:navigationBarColor : 네이게이션 색상을 설정(API 21부터 적용) -->
+        <item name="android:navigationBarColor">@android:color/holo_purple</item>
+    </style>
+
+    <style name="Theme.Material01_Color" parent="Base.Theme.Material01_Color" />
+</resources>
