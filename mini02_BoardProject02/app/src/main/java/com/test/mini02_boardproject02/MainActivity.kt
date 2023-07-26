@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.splashscreen.SplashScreen
@@ -27,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         val LOGIN_FRAGMENT = "LoginFragment"
         val JOIN_FRAGMENT = "JoinFragment"
         val ADD_USER_INFO_FRAGMENT = "AddUserInfoFragment"
+        val BOARD_MAIN_FRAGMENT = "BoardMainFragment"
+        val MODIFY_USER_FRAGMENT = "ModifyUserFragment"
+        val POST_LIST_FRAGMENT = "PostListFragment"
+        val MODIFY_USER_BASIC_FRAGMENT = "ModifyUserBasicFragment"
+        val MODIFY_USER_ADDITIONAL_FRAGMENT = "ModifyUserAdditionalFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 지정한 Fragment를 보여주는 메서드
-    fun replaceFragment(name:String, addToBackStack:Boolean, bundle:Bundle?){
+    fun replaceFragment(name: String, addToBackStack:Boolean, bundle:Bundle?){
         // Fragment 교체 상태로 설정한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -92,6 +96,11 @@ class MainActivity : AppCompatActivity() {
             LOGIN_FRAGMENT -> LoginFragment()
             JOIN_FRAGMENT -> JoinFragment()
             ADD_USER_INFO_FRAGMENT -> AddUserInfoFragment()
+            BOARD_MAIN_FRAGMENT -> BoardMainFragment()
+            MODIFY_USER_FRAGMENT -> ModifyUserFragment()
+            POST_LIST_FRAGMENT -> PostListFragment()
+            MODIFY_USER_BASIC_FRAGMENT -> ModifyUserBasicFragment()
+            MODIFY_USER_ADDITIONAL_FRAGMENT -> ModifyUserAdditionalFragment()
             else -> Fragment()
         }
 

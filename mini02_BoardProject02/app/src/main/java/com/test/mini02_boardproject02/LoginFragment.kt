@@ -1,6 +1,5 @@
 package com.test.mini02_boardproject02
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -30,6 +29,10 @@ class LoginFragment : Fragment() {
 
             buttonLoginJoin.setOnClickListener {
                 mainActivity.replaceFragment(MainActivity.JOIN_FRAGMENT,true,null)
+            }
+
+            buttonLoginSubmit.setOnClickListener {
+                mainActivity.replaceFragment(MainActivity.BOARD_MAIN_FRAGMENT,false,null)
             }
         }
 
