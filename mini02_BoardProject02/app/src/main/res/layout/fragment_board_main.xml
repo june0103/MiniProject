@@ -25,12 +25,11 @@
                 android:minHeight="?attr/actionBarSize"
                 android:theme="@style/Theme.Mini02.Toolbar" />
 
-            <TextView
-                android:id="@+id/textViewTest"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/boardMainContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:layout_height="match_parent" />
+
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

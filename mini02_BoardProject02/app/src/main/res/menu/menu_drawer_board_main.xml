@@ -11,12 +11,12 @@
                 app:showAsAction="ifRoom" />
             <item
                 android:id="@+id/item_board_main_free"
-                android:icon="@drawable/assignment_24px"
+                android:icon="@drawable/ballot_24px"
                 android:title="자유게시판"
                 app:showAsAction="ifRoom" />
             <item
                 android:id="@+id/item_board_main_gag"
-                android:icon="@drawable/assignment_24px"
+                android:icon="@drawable/face_24px"
                 android:title="유머게시판"
                 app:showAsAction="ifRoom" />
             <item
