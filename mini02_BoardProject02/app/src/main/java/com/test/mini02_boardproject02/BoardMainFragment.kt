@@ -21,6 +21,7 @@ class BoardMainFragment : Fragment() {
     companion object {
         val POST_LIST_FRAGMENT = "PostListFragment"
         val MODIFY_USER_FRAGMENT = "ModifyUserFragment"
+
     }
 
     override fun onCreateView(
@@ -33,9 +34,6 @@ class BoardMainFragment : Fragment() {
         mainActivity = activity as MainActivity
 
         fragmentBoardMainBinding.run {
-
-            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
-
             toolbarBoardMain.run {
                 title = "게시판 메인"
                 setNavigationIcon(R.drawable.menu_24px)
@@ -100,13 +98,14 @@ class BoardMainFragment : Fragment() {
                             mainActivity.replaceFragment(MainActivity.LOGIN_FRAGMENT, false, null)
                         }
                     }
-
                     // 닫아준다
 //                    drawerLayoutBoardMain.close()
-
                     false
                 }
             }
+
+            // 첫 화면으로 나오도록
+            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
         }
         return fragmentBoardMainBinding.root
     }

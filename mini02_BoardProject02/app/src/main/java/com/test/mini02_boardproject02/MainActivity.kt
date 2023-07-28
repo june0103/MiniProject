@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.core.splashscreen.SplashScreen
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         val BOARD_MAIN_FRAGMENT = "BoardMainFragment"
         val MODIFY_USER_FRAGMENT = "ModifyUserFragment"
         val POST_LIST_FRAGMENT = "PostListFragment"
+        val POST_WRITE_FRAGMENT = "PostWriteFragment"
+        val POST_READ_FRAGMENT = "PostReadFragment"
+        val POST_MODIFY_FRAGMENT = "PostModifyFragment"
         val MODIFY_USER_BASIC_FRAGMENT = "ModifyUserBasicFragment"
         val MODIFY_USER_ADDITIONAL_FRAGMENT = "ModifyUserAdditionalFragment"
     }
@@ -83,6 +87,9 @@ class MainActivity : AppCompatActivity() {
 
     // 지정한 Fragment를 보여주는 메서드
     fun replaceFragment(name: String, addToBackStack:Boolean, bundle:Bundle?){
+
+        SystemClock.sleep(200)
+
         // Fragment 교체 상태로 설정한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -99,6 +106,9 @@ class MainActivity : AppCompatActivity() {
             BOARD_MAIN_FRAGMENT -> BoardMainFragment()
             MODIFY_USER_FRAGMENT -> ModifyUserFragment()
             POST_LIST_FRAGMENT -> PostListFragment()
+            POST_WRITE_FRAGMENT -> PostWriteFragment()
+            POST_READ_FRAGMENT -> PostReadFragment()
+            POST_MODIFY_FRAGMENT -> PostModifyFragment()
             MODIFY_USER_BASIC_FRAGMENT -> ModifyUserBasicFragment()
             MODIFY_USER_ADDITIONAL_FRAGMENT -> ModifyUserAdditionalFragment()
             else -> Fragment()
