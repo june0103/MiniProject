@@ -23,14 +23,14 @@
                 android:layout_height="match_parent"
                 android:hint="비밀번호"
                 android:transitionGroup="true"
-                app:endIconMode="clear_text"
+                app:endIconMode="password_toggle"
                 app:startIconDrawable="@drawable/password_24px">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputEditTextModifyUserPw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textPersonName"
+                    android:inputType="text|textPassword"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,14 +41,14 @@
                 android:layout_marginTop="10dp"
                 android:hint="비밀번호확인"
                 android:transitionGroup="true"
-                app:endIconMode="clear_text"
+                app:endIconMode="password_toggle"
                 app:startIconDrawable="@drawable/password_24px">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputEditTextModifyUserPw2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text|textPersonName"
+                    android:inputType="text|textPassword"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
 

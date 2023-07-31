@@ -1,10 +1,12 @@
 package com.test.mini02_boardproject02
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.mini02_boardproject02.databinding.FragmentPostWriteBinding
 
 class PostWriteFragment : Fragment() {
@@ -38,7 +40,37 @@ class PostWriteFragment : Fragment() {
 
                         }
                         R.id.item_post_write_done -> {
-                                mainActivity.replaceFragment(MainActivity.POST_READ_FRAGMENT,true,null)
+
+                            // 입력한 내용을 가져온다.
+                            val subject = textInputEditTextPostWriteSubject.text.toString()
+                            val text = textInputEditTextPostWriteText.text.toString()
+
+                            if(subject.isEmpty()) {
+                                val builder = MaterialAlertDialogBuilder(mainActivity)
+                                builder.setTitle("제목 입력 오류")
+                                builder.setMessage("제목을 입력해주세요")
+                                builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+
+                                    mainActivity.showSoftInput(textInputEditTextPostWriteSubject)
+
+                                }
+                                builder.show()
+                                return@setOnMenuItemClickListener true
+                            }
+                            if(text.isEmpty()) {
+                                val builder = MaterialAlertDialogBuilder(mainActivity)
+                                builder.setTitle("내용 입력 오류")
+                                builder.setMessage("내용을 입력해주세요")
+                                builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+
+                                    mainActivity.showSoftInput(textInputEditTextPostWriteText)
+
+                                }
+                                builder.show()
+                                return@setOnMenuItemClickListener true
+                            }
+
+                            mainActivity.replaceFragment(MainActivity.POST_READ_FRAGMENT,true,null)
                         }
                     }
                     true

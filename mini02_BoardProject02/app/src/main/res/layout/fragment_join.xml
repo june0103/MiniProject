@@ -71,7 +71,7 @@
                 app:startIconDrawable="@drawable/password_24px">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextLoginUserPw2"
+                    android:id="@+id/textInputEditTextJoinUserPw2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
