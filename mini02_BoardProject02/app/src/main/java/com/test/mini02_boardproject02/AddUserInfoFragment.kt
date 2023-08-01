@@ -69,12 +69,10 @@ class AddUserInfoFragment : Fragment() {
                     // 사용자 인덱스 값을 가져온다
                     val database = FirebaseDatabase.getInstance()
                     val userIdxRef = database.getReference("UserIdx")
-                    var userIdx = 0L
 
                     userIdxRef.get().addOnCompleteListener {
-                        for(a1 in it.result.children){
-                            userIdx = a1.value as Long
-                        }
+                        // 현재의 사용자 순서값을 가져온다.
+                        var userIdx = it.result.value as Long
 
                         // 저장할 데이터를 담는다
                         val joinUserId = arguments?.getString("joinUserId")!!
@@ -92,16 +90,18 @@ class AddUserInfoFragment : Fragment() {
                             materialCheckBoxAddUserInfoHobby6.isChecked,
                         )
 
-                        // 저장
+                        // 저장한다.
                         val userDataRef = database.getReference("UserData")
 
                         userDataRef.push().setValue(userClass).addOnCompleteListener {
 
                             userIdxRef.get().addOnCompleteListener {
-                                for (a1 in it.result.children) {
-                                    a1.ref.setValue(userIdx)
-                                }
-                                Snackbar.make(fragmentAddUserInfoBinding.root,"가입이 완료되었습니다", Snackbar.LENGTH_SHORT).show()
+
+                                // Log.d("abc", userIdx.toString())
+
+                                it.result.ref.setValue(userIdx)
+
+                                Snackbar.make(fragmentAddUserInfoBinding.root, "가입이 완료되었습니다", Snackbar.LENGTH_SHORT).show()
 
                                 mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
                                 mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)

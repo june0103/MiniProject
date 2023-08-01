@@ -1,5 +1,6 @@
 package com.test.mini02_boardproject02
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
@@ -40,6 +41,21 @@ class MainActivity : AppCompatActivity() {
         val MODIFY_USER_ADDITIONAL_FRAGMENT = "ModifyUserAdditionalFragment"
     }
 
+    // 로그인한 사용자의 정보를 담을 객체
+    lateinit var loginUserClass : UserClass
+
+    // 게시판 종류
+    val boardTypeList = arrayOf(
+        "자유게시판", "유머게시판", "질문게시판", "스포츠게시판"
+    )
+
+    // 확인할 권한 목록
+    val permissionList = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.ACCESS_MEDIA_LOCATION,
+        Manifest.permission.INTERNET
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,6 +65,9 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        // 권한확인
+        requestPermissions(permissionList,0)
 
         replaceFragment(LOGIN_FRAGMENT, false, null)
     }
@@ -173,15 +192,25 @@ class MainActivity : AppCompatActivity() {
 }
 
 // 사용자 정보 클래스
-data class UserClass(var userIdx:Long,
-                     var userId:String,
-                     var userPw:String,
-                     var userNickname:String,
-                     var userAge:Long,
-                     var hobby1:Boolean,
+data class UserClass(var userIdx:Long,          // 사용자 인덱스 번호
+                     var userId:String,         // 사용자 아이디
+                     var userPw:String,         // 비밀번호
+                     var userNickname:String,   // 닉네임
+                     var userAge:Long,          // 사용자 나이
+                     var hobby1:Boolean,        // 취미들
                      var hobby2:Boolean,
                      var hobby3:Boolean,
                      var hobby4:Boolean,
                      var hobby5:Boolean,
                      var hobby6:Boolean
+)
+
+// 게시글 정보 클래스
+data class PostDataClass(var postIdx:Long,          // 게시판 인덱스 번호
+                         var postType:Long,         // 게시판 종류
+                         var postSubject:String,    // 제목
+                         var postText:String,       // 내용
+                         var postWriteDate:String,  // 작성일
+                         var postImage:String,      // 첨부 이미지 파일 이름
+                         var postWriterIdx:Long     // 작성자 인덱스 번호
 )
