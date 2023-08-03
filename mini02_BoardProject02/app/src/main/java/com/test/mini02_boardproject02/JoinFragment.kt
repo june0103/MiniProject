@@ -6,13 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.mini02_boardproject02.databinding.FragmentJoinBinding
+import com.test.mini02_boardproject02.vm.UserViewModel
 
 class JoinFragment : Fragment() {
 
     lateinit var fragmentJoinBinding : FragmentJoinBinding
     lateinit var mainActivity: MainActivity
+
+    lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,6 +26,19 @@ class JoinFragment : Fragment() {
 
         fragmentJoinBinding = FragmentJoinBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+
+        userViewModel = ViewModelProvider(mainActivity)[UserViewModel::class.java]
+        userViewModel.run {
+            userId.observe(mainActivity){
+                fragmentJoinBinding.textInputEditTextJoinUserId.setText(it)
+            }
+            userPw.observe(mainActivity){
+                fragmentJoinBinding.textInputEditTextJoinUserPw.setText(it)
+            }
+            userPw2.observe(mainActivity){
+                fragmentJoinBinding.textInputEditTextJoinUserPw2.setText(it)
+            }
+        }
 
         fragmentJoinBinding.run {
             // toolbar
@@ -45,6 +62,9 @@ class JoinFragment : Fragment() {
                     true
                 }
             }
+
+            // 사용자 아이디에 포커스
+            mainActivity.showSoftInput(textInputEditTextJoinUserId)
         }
 
         return fragmentJoinBinding.root
@@ -115,6 +135,11 @@ class JoinFragment : Fragment() {
             mainActivity.replaceFragment(MainActivity.ADD_USER_INFO_FRAGMENT,true,newBundle)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userViewModel.reset()
     }
 
 }
