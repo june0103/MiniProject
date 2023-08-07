@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.test.mini02_boardproject02.databinding.FragmentPostReadBinding
+import com.test.mini02_boardproject02.repository.PostRepository
 import com.test.mini02_boardproject02.vm.PostViewModel
 
 class PostReadFragment : Fragment() {
@@ -74,12 +75,24 @@ class PostReadFragment : Fragment() {
 //                                textInputEditTextPostReadSubject.isEnabled = false
 //                                textInputEditTextPostReadText.isEnabled = false
 //                            }
-
-                            mainActivity.replaceFragment(MainActivity.POST_MODIFY_FRAGMENT,true,null)
+                            val newBundle = Bundle()
+                            newBundle.putLong("readPostIdx", readPostIdx)
+                            mainActivity.replaceFragment(MainActivity.POST_MODIFY_FRAGMENT, true, newBundle)
                         }
                         R.id.item_post_read_delete -> {
-                            mainActivity.removeFragment(MainActivity.POST_WRITE_FRAGMENT)
-                            mainActivity.removeFragment(MainActivity.POST_READ_FRAGMENT)
+                            // 글 삭제
+                            PostRepository.removePost(readPostIdx){
+                                // 이미지 존재시 삭제
+                                if(postViewModel.postFileName.value != "none"){
+                                    PostRepository.remeoveImage(postViewModel.postFileName.value!!){
+                                        mainActivity.removeFragment(MainActivity.POST_WRITE_FRAGMENT)
+                                        mainActivity.removeFragment(MainActivity.POST_READ_FRAGMENT)
+                                    }
+                                } else{
+                                    mainActivity.removeFragment(MainActivity.POST_WRITE_FRAGMENT)
+                                    mainActivity.removeFragment(MainActivity.POST_READ_FRAGMENT)
+                                }
+                            }
                         }
                     }
 
@@ -99,6 +112,9 @@ class PostReadFragment : Fragment() {
                     setTextColor(Color.BLACK)
                 }
             }
+
+            // 이미지를 받아 오기 전까지 보여줄 이미지 설정
+            imageViewPostRead.setImageResource(R.mipmap.aaa)
         }
 
         // 게시글 인덱스 번호

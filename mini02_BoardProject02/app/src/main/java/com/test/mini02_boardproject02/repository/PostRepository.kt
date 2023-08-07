@@ -72,5 +72,43 @@ class PostRepository {
             val postDataRef = database.getReference("PostData")
             postDataRef.orderByChild("postType").equalTo(postType.toDouble()).orderByChild("postIdx").get().addOnCompleteListener(callback1)
         }
+
+        // 이지미 삭제
+        fun remeoveImage(fileName: String, callback1: (Task<Void>) -> Unit){
+            val storage = FirebaseStorage.getInstance()
+            val fileRef = storage.reference.child(fileName)
+            // 파일을 삭제
+            fileRef.delete().addOnCompleteListener (callback1)
+        }
+
+        // 글 삭제
+        fun removePost(postIdx: Long,callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val testDataRef = database.getReference("PostData")
+
+            // 데이터를 가져온다.
+            testDataRef.orderByChild("postIdx").equalTo(postIdx.toDouble()).get().addOnCompleteListener {
+                for(a1 in it.result.children){
+                    // 해당 데이터를 삭제한다.
+                    a1.ref.removeValue().addOnCompleteListener(callback1)
+                }
+            }
+        }
+
+        // 글 수정
+        fun modifyPost(postDataClass: PostDataClass, isNewImage:Boolean, callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val postDataRef = database.getReference("PostData")
+
+            postDataRef.orderByChild("postIdx").equalTo(postDataClass.postIdx.toDouble()).get().addOnCompleteListener {
+                for (a1 in it.result.children) {
+                    if (isNewImage == true) {
+                        a1.ref.child("postImage").setValue(postDataClass.postImage)
+                    }
+                    a1.ref.child("postSubject").setValue(postDataClass.postSubject)
+                    a1.ref.child("postText").setValue(postDataClass.postText).addOnCompleteListener(callback1)
+                }
+            }
+        }
     }
 }
