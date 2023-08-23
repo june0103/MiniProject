@@ -53,5 +53,25 @@ class UserRepository {
 
             userDataRef.orderByChild("userIdx").equalTo(userIdx.toDouble()).get().addOnCompleteListener(callback1)
         }
+
+        // 사용자 정보 수정
+        fun modifyUserInfo(userClass: UserClass, callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val userDataRef = database.getReference("UserData")
+
+            userDataRef.orderByChild("userIdx").equalTo(userClass.userIdx.toDouble()).get().addOnCompleteListener{
+                for(a1 in it.result.children){
+                    a1.ref.child("userPw").setValue(userClass.userPw)
+                    a1.ref.child("userNickname").setValue(userClass.userNickname)
+                    a1.ref.child("userAge").setValue(userClass.userAge)
+                    a1.ref.child("hobby1").setValue(userClass.hobby1)
+                    a1.ref.child("hobby2").setValue(userClass.hobby2)
+                    a1.ref.child("hobby3").setValue(userClass.hobby3)
+                    a1.ref.child("hobby4").setValue(userClass.hobby4)
+                    a1.ref.child("hobby5").setValue(userClass.hobby5)
+                    a1.ref.child("hobby6").setValue(userClass.hobby6).addOnCompleteListener(callback1)
+                }
+            }
+        }
     }
 }

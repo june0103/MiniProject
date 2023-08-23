@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.search.SearchView
+import com.google.android.material.snackbar.Snackbar
 import com.test.mini02_boardproject02.databinding.FragmentPostListBinding
 import com.test.mini02_boardproject02.databinding.RowPostListBinding
 import com.test.mini02_boardproject02.vm.PostViewModel
@@ -52,6 +54,25 @@ class PostListFragment : Fragment() {
 
             searchViewPostList.run{
                 hint = "검색어를 입력해주세요"
+
+                addTransitionListener { searchView, previousState, newState ->
+                    // 서치바를 눌러 서치뷰가 보일 때
+                    if(newState == SearchView.TransitionState.SHOWING){
+                        // Snackbar.make(fragmentPostListBinding.root,"Showing", Snackbar.LENGTH_SHORT).show()
+                        postViewModel.resetPostList()
+                    }
+                    // 서치뷰의 백버튼을 눌러 서치뷰가 사라지고 서치바가 보일 때
+                    else if(newState == SearchView.TransitionState.HIDING){
+                        // Snackbar.make(fragmentPostListBinding.root,"Hiding", Snackbar.LENGTH_SHORT).show()
+                        postViewModel.getPostAll(arguments?.getLong("postType")!!)
+                    }
+                }
+
+                editText.setOnEditorActionListener { textView, i, keyEvent ->
+
+                    postViewModel.getSearchPostList(arguments?.getLong("postType")!!, text.toString())
+                    true
+                }
             }
 
             recyclerViewPostListAll.run {
@@ -61,7 +82,7 @@ class PostListFragment : Fragment() {
             }
 
             recyclerViewPostListResult.run {
-                adapter = ResultRecyclerViewAdapter()
+                adapter = AllRecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(MaterialDividerItemDecoration(context,MaterialDividerItemDecoration.VERTICAL))
             }
@@ -147,14 +168,12 @@ class PostListFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return 100
+            return postViewModel.postDataList.value?.size!!
         }
 
         override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-            holder.rowPostListSubject.text = "제목입니다 : $position"
-            holder.rowPostListNickName.text = "작성자 : $position"
+            holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
+           // holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
         }
     }
-
-
 }

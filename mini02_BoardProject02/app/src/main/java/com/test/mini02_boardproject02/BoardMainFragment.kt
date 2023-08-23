@@ -18,6 +18,8 @@ class BoardMainFragment : Fragment() {
     var newFragment: Fragment? = null
     var oldFragment: Fragment? = null
 
+    var nowPostType = 0
+
     companion object {
         val POST_LIST_FRAGMENT = "PostListFragment"
         val MODIFY_USER_FRAGMENT = "ModifyUserFragment"
@@ -35,7 +37,11 @@ class BoardMainFragment : Fragment() {
 
         fragmentBoardMainBinding.run {
             toolbarBoardMain.run {
-                title = "전체게시판"
+                title = if(nowPostType == 0){
+                    "전체게시판"
+                } else{
+                    mainActivity.boardTypeList[nowPostType - 1]
+                }
                 setNavigationIcon(R.drawable.menu_24px)
                 setNavigationOnClickListener {
                     // 네비게이션 뷰
@@ -48,7 +54,7 @@ class BoardMainFragment : Fragment() {
 
                 // 헤더설정
                 val headerBoardMainBinding = HeaderBoardMainBinding.inflate(inflater)
-                headerBoardMainBinding.textViewHeaderBoardMainNickName.text = "아무개님"
+                headerBoardMainBinding.textViewHeaderBoardMainNickName.text = "${mainActivity.loginUserClass.userNickname}님"
                 addHeaderView(headerBoardMainBinding.root)
 
                 // 항목 선택 동작 리스너
@@ -62,6 +68,7 @@ class BoardMainFragment : Fragment() {
                         // 전체게시판
                         R.id.item_board_main_all -> {
                             toolbarBoardMain.title = "전체게시판"
+                            nowPostType = 0
                             val newBundle = Bundle()
                             newBundle.putLong("postType",0)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
@@ -70,6 +77,7 @@ class BoardMainFragment : Fragment() {
                         // 자유게시판
                         R.id.item_board_main_free -> {
                             toolbarBoardMain.title = "자유게시판"
+                            nowPostType = 1
                             val newBundle = Bundle()
                             newBundle.putLong("postType",1)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
@@ -78,6 +86,7 @@ class BoardMainFragment : Fragment() {
                         // 유머게시판
                         R.id.item_board_main_gag -> {
                             toolbarBoardMain.title = "유머게시판"
+                            nowPostType = 2
                             val newBundle = Bundle()
                             newBundle.putLong("postType",2)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
@@ -86,6 +95,7 @@ class BoardMainFragment : Fragment() {
                         // 질문게시판
                         R.id.item_board_main_qna -> {
                             toolbarBoardMain.title = "질문게시판"
+                            nowPostType = 3
                             val newBundle = Bundle()
                             newBundle.putLong("postType",3)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
@@ -94,6 +104,7 @@ class BoardMainFragment : Fragment() {
                         // 스포츠게시판
                         R.id.item_board_main_sports -> {
                             toolbarBoardMain.title = "스포츠게시판"
+                            nowPostType = 4
                             val newBundle = Bundle()
                             newBundle.putLong("postType",4)
                             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
@@ -121,7 +132,7 @@ class BoardMainFragment : Fragment() {
 
             // 첫 화면으로 나오도록
             val newBundle = Bundle()
-            newBundle.putLong("postType",0)
+            newBundle.putLong("postType",nowPostType.toLong())
             replaceFragment(POST_LIST_FRAGMENT, false, false, newBundle)
         }
         return fragmentBoardMainBinding.root
